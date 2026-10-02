@@ -10,7 +10,7 @@ const abi = parseAbi(['function isMember(address user) view returns (bool)'])
 const client = createPublicClient({ chain: sepolia, transport: http() })
 
 const app = express()
-app.use(cors())
+app.use(cors({ origin: 'https://membership-club-two.vercel.app' }))
 app.use(express.json())
 
 const nonces = new Map()   // address -> { message, expires }

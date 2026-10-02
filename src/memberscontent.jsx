@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSignMessage } from 'wagmi'
 
-const API = 'http://192.168.1.25:3001'
+const API = 'https://membership-club.onrender.com'
 
 export default function MembersContent({ address }) {
   const { signMessageAsync } = useSignMessage()

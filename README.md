@@ -1,18 +1,37 @@
-# React + Vite
+# MembershipClub.sol
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A token-gated membership contract. Users mint a membership NFT to join; the frontend checks ownership to unlock gated content.
 
-Currently, two official plugins are available:
+## Overview
+- Standard: ERC-721 (OpenZeppelin)
+- Network: Deployed on Sepolia testnet (for now)
+- One membership NFT per wallet — no duplicates
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## State Variables
+| Variable      | Type    | Description                          |
+|---------------|---------|---------------------------------------|
+| `nextTokenId` | uint256 | Auto-incrementing ID for the next mint |
+| `mintPrice`   | uint256 | Cost to join (default: 0.01 ETH)      |
+| `maxSupply`   | uint256 | Max number of members (default: 500)  |
 
-## React Compiler
+## Functions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**`join()`** — payable
+User sends ETH == `mintPrice` to mint a membership NFT. Reverts if underpaid, sold out, or wallet is already a member.
 
-## Expanding the Oxlint configuration
+**`isMember(address user)`** — view, returns `bool`
+Returns `true` if the address holds at least one membership NFT. This is the function the frontend calls to gate content.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+**`withdraw()`** — owner only
+Sends all ETH collected from mints to the contract owner.
 
+**`setMintPrice(uint256 newPrice)`** — owner only
+Lets the owner change the mint price after deployment.
+
+## Access Control
+Inherits OpenZeppelin's `Ownable` — deployer becomes the owner automatically, with exclusive rights to `withdraw()` and `setMintPrice()`.
+
+## Dependencies
+- `@openzeppelin/contracts/token/ERC721/ERC721.sol`
+- `@openzeppelin/contracts/access/Ownable.sol`
 

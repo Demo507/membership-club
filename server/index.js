@@ -15,8 +15,7 @@ const client = createPublicClient({
 })
 
 const app = express()
-
-app.use(cors())
+app.use(cors({ origin: 'https://membership-club-two.vercel.app' }))
 app.use(express.json())
 
 const nonces = new Map()

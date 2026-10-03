@@ -11,7 +11,7 @@ import {
 import { sepolia } from 'wagmi/chains'
 import { formatEther } from 'viem'
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from './contract'
-import MembersContent from './memberscontent'
+import MembersContent from './MembersContent.jsx'
 const card = {
   maxWidth: 480,
   margin: '40px auto',
